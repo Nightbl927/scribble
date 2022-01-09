@@ -1,4 +1,4 @@
-import 'package:test_scribble/src/model/sketch/point/point.dart';
+import 'package:scribble/src/model/sketch/point/point.dart';
 
 /// A processed point returned by `getStrokePoints`. Used as an input to `getStrokeOutlinePoints`.
 class StrokePoint {
