@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
-import 'package:test_scribble/scribble.dart';
+import 'package:scribble/scribble.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:test_scribble/src/display/get_stroke.dart' show getStroke;
+import 'package:scribble/src/display/get_stroke.dart' show getStroke;
 
 const double _maxDistanceToDrawPoint = kPrecisePointerPanSlop * 1;
 
