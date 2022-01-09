@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'get_stroke_radius.dart';
-import 'package:test_scribble/src/model/sketch/point/point.dart';
-import 'stroke_point.dart';
-import 'vec.dart';
+import 'package:scribble/src/display/get_stroke_radius.dart';
+import 'package:scribble/src/model/sketch/point/point.dart';
+import 'package:scribble/src/display/stroke_point.dart';
+import 'package:scribble/src/display/vec.dart';
 
 const double rateOfPressureChange = 0.275;
 
