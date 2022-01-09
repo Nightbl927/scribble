@@ -1,8 +1,8 @@
-import 'package:test_scribble/scribble.dart';
+import 'package:scribble/scribble.dart';
 
-import 'get_stroke_outline_points.dart';
-import 'get_stroke_points.dart';
-import 'package:test_scribble/src/model/sketch/point/point.dart';
+import 'package:scribble/src/display/get_stroke_outline_points.dart';
+import 'package:scribble/src/display/get_stroke_points.dart';
+import 'package:scribble/src/model/sketch/point/point.dart';
 
 /// Get an array of points describing a polygon that surrounds the input [points].
 ///
