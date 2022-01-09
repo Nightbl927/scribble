@@ -35,8 +35,10 @@ class ScribblePainter extends CustomPainter {
 
     for (int i = 0; i < lines.length; ++i) {
       final line = lines[i];
-      final path = Path();
 
+      //added to use new stroke method
+      final path = Path();
+      //added to use new stroke method
       final outlinePoints = getStroke(line, pressureFactor: pressureFactor, speedFactor: speedFactor, minWidthFactor: minWidthFactor);
 
       paint.color = Color(lines[i].color);
@@ -50,7 +52,6 @@ class ScribblePainter extends CustomPainter {
               p.asOffset, _getWidth(line.width, p.pressure, 0), paint);
         }
 
-        // Otherwise, draw a line that connects each point with a bezier curve segment.
         path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
 
         for (int i = 1; i < outlinePoints.length - 1; ++i) {
@@ -60,8 +61,19 @@ class ScribblePainter extends CustomPainter {
               p0.x, p0.y, (p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
         }
         canvas.drawPath(path, paint);
-      }
 
+        /*if (line.points.length > 1) {
+          final p2 = line.points.last;
+          final p1 = line.points[line.points.length - 2];
+          final distance = (p2.asOffset - p1.asOffset).distance;
+          if (distance <= _maxDistanceToDrawPoint) {
+            canvas.drawCircle(p2.asOffset,
+                _getWidth(line.width, p2.pressure, distance), paint);
+          }
+        }*/
+      }
+      //Vertices path = _getVerticesForLine(line);
+      //canvas.drawVertices(path, BlendMode.dst, paint);
     }
     if (state.pointerPosition != null &&
         (state is Drawing && drawPointer || state is Erasing && drawEraser)) {
