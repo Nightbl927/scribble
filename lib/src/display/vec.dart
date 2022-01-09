@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:test_scribble/src/model/sketch/point/point.dart';
+import 'package:scribble/src/model/sketch/point/point.dart';
 
 /// Various (mostly vector) math helpers. Each function returns a new Point.
 Point neg(Point A) {
