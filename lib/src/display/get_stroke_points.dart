@@ -1,6 +1,6 @@
-import 'package:test_scribble/src/model/sketch/point/point.dart';
-import 'stroke_point.dart';
-import 'vec.dart';
+import 'package:scribble/src/model/sketch/point/point.dart';
+import 'package:scribble/src/display/stroke_point.dart';
+import 'package:scribble/src/display/vec.dart';
 
 /// Get an array of points as objects with an adjusted point, pressure, vector, distance, and runningLength for the provided [points]. Used internally by `getStroke` but possibly of separate interest. Can be passed to `getStrokeOutlinePoints`.
 ///
