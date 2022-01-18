@@ -1,3 +1,35 @@
+## 0.2.0
+#### BREAKING:
+- Custom ScribbleNotifiers now need to provide a GlobalKey which is used in the renderImage() method to access Scribble's
+  RepaintBoundary
+- Updated example to demonstrate image export.
+
+#### Image Export:
+- You can now export the Scribble to an Image ```ByteData``` using the ScribbleNotifiers ``renderImage()`` method!
+
+#### Other Changes:
+- The pressure on web is overridden so the cursor matches the selected pen width!
+- ``ScribbleNotifier`` now extends ``ScribbleNotifierBase`` instead of implementing it as an interface.
+- Updated dependencies
+
+## 0.1.3
+#### Filter for Pointers:
+You can now switch between different ``ScribblePointerMode``s, even at runtime.
+
+This is very helpful for example, if Scribble lives inside a Scrollable and you want users to be able to navigate with their finger while drawing with their pen.
+
+Check the updated example to try it out!
+
+#### Other Changes:
+* ``ScribbleNotifier`` now has the option to set the sketch from outside after it has been constructed using the ``setSketch()`` method. You can even choose whether you want it to be committed to the undo history.
+* Added documentation to ``ScribbleState``
+* Updated example
+* Updated dependencies
+
+## 0.1.2
+
+* Removed the speed calculation using time due to precision issues
+
 ## 0.1.1
 * Added scaleFactor to support zoomable canvases. This allows you to for example wrap the Scribble Widget in an
 InteractiveViewer, so that users can draw finer details.

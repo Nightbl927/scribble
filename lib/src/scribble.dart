@@ -1,10 +1,13 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:scribble/src/scribble.notifier.dart';
 import 'package:scribble/src/scribble_painter.dart';
 import 'package:scribble/src/state/scribble.state.dart';
+
+import 'core/pan_gesture_catcher.dart';
 
 /// This Widget represents a canvas on which users can draw with any pointer.
 ///
@@ -78,10 +81,11 @@ class _ScribbleState extends State<Scribble> {
     return StateNotifierBuilder<ScribbleState>(
       stateNotifier: widget.notifier,
       builder: (context, state, _) {
-        final drawCurrent = widget.drawPen && state is Drawing ||
+        final drawCurrentTool = widget.drawPen && state is Drawing ||
             widget.drawEraser && state is Erasing;
         final child = SizedBox.expand(
           child: RepaintBoundary(
+            key: widget.notifier.repaintBoundaryKey,
             child: CustomPaint(
               painter: ScribblePainter(
                 state: state,
@@ -96,12 +100,14 @@ class _ScribbleState extends State<Scribble> {
         );
         return !state.active
             ? child
-            : GestureDetector(
-                onVerticalDragUpdate: (_) {},
-                onHorizontalDragUpdate: (_) {},
+            : GestureCatcher(
+                pointerKindsToCatch: state.supportedPointerKinds,
                 child: MouseRegion(
-                  cursor:
-                      drawCurrent ? SystemMouseCursors.none : MouseCursor.defer,
+                  cursor: drawCurrentTool &&
+                          state.supportedPointerKinds
+                              .contains(PointerDeviceKind.mouse)
+                      ? SystemMouseCursors.none
+                      : MouseCursor.defer,
                   onExit: widget.notifier.onPointerExit,
                   child: Listener(
                     onPointerDown: widget.notifier.onPointerDown,
