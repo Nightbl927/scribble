@@ -87,13 +87,14 @@ class ScribblePainter extends CustomPainter {
       );
       paint.strokeWidth = 1;
       canvas.drawCircle(
-          state.pointerPosition!.asOffset,
-          _getWidth(
-            state.selectedWidth / state.scaleFactor,
-            state.pointerPosition!.pressure,
-            0,
-          ),
-          paint);
+        state.pointerPosition!.asOffset,
+        _getWidth(
+          state.selectedWidth / state.scaleFactor,
+          state.pointerPosition!.pressure,
+          0,
+        ),
+        paint
+      );
     }
   }
 
