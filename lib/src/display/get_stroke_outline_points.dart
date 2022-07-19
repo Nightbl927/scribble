@@ -30,17 +30,19 @@ const double rateOfPressureChange = 0.275;
 /// The [isComplete] argument sets whether the line is complete.
 List<Point> getStrokeOutlinePoints(
     List<StrokePoint> points, {
-      required double size,
+      double size = 16,
       required double pressureFactor,
       required double minWidthFactor,
       required double speedFactor,
-      required double smoothing,
-      required double streamline,
-      required double taperStart,
-      required double taperEnd,
-      required bool capStart,
-      required bool capEnd,
-      required bool isComplete,
+      double thinning = 0.7,
+      double smoothing = 0.5,
+      double streamline = 0.5,
+      double taperStart = 0.0,
+      double taperEnd = 0.0,
+      bool capStart = true,
+      bool capEnd = true,
+      bool simulatePressure = true,
+      bool isComplete = false,
     }) {
   if (points.isEmpty || size < 0) return [];
 
@@ -52,7 +54,7 @@ List<Point> getStrokeOutlinePoints(
 
   final rightPts = <Point>[];
 
-  //double prevPressure = points[0].point.pressure;
+  double prevPressure = points[0].point.pressure;
 
   double sp;
 
@@ -61,8 +63,20 @@ List<Point> getStrokeOutlinePoints(
   for (var i = 0; i < min(10, points.length); i++) {
     var pressure = points[i].point.pressure;
 
-    //prevPressure = (prevPressure + pressure) / 2;
+    if (simulatePressure) {
+      sp = min(1, points[i].distance / size);
+
+      rp = min(1, 1 - sp);
+
+      pressure = min(
+        1,
+        prevPressure + (rp - prevPressure) * (sp * rateOfPressureChange),
+      );
+    }
+
+    prevPressure = (prevPressure + pressure) / 2;
   }
+
   final distance = points[0].distance;
 
   double radius = getStrokeRadius(
@@ -103,16 +117,34 @@ List<Point> getStrokeOutlinePoints(
     // Pressure
 
     var pressure = curr.point.pressure;
-    final distance = curr.distance;
 
-    radius = getStrokeRadius(
-      distance,
-      size,
-      pressureFactor,
-      minWidthFactor,
-      speedFactor,
-      pressure,
-    );
+    if (thinning != 0) {
+      if (simulatePressure) {
+        sp = min(1, curr.distance / size);
+        rp = min(1, 1 - sp);
+        pressure = min(
+          1,
+          prevPressure + (rp - prevPressure) * (sp * rateOfPressureChange),
+        );
+        radius = getStrokeRadius(
+          distance,
+          size,
+          pressureFactor,
+          minWidthFactor,
+          speedFactor,
+          pressure,
+        );
+      } else {
+        radius = getStrokeRadius(
+          distance,
+          size,
+          pressureFactor,
+          minWidthFactor,
+          speedFactor,
+          pressure,
+        );
+      }
+    }
 
     firstRadius ??= radius;
 
@@ -130,7 +162,7 @@ List<Point> getStrokeOutlinePoints(
       te = 1;
     }
 
-    //radius = max(0.01, radius * min(ts, te));
+    radius = max(0.01, radius * min(ts, te));
 
     // Left and Right Points
 
@@ -160,6 +192,7 @@ List<Point> getStrokeOutlinePoints(
     }
 
     // Regular points
+
     offset = mul(per(lrp(nextVector, curr.vector, nextDpr)), radius);
 
     tl = sub(curr.point, offset);
@@ -176,7 +209,7 @@ List<Point> getStrokeOutlinePoints(
       pr = tr;
     }
 
-    //prevPressure = pressure;
+    prevPressure = pressure;
 
     prevVector = curr.vector;
   }
