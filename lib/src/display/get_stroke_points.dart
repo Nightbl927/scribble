@@ -25,17 +25,19 @@ import 'package:scribble/src/display/vec.dart';
 /// The [isComplete] argument sets whether the line is complete.
 List<StrokePoint> getStrokePoints(
     List<Point> points, {
-      required double size,
+      double size = 16,
       required double pressureFactor,
       required double minWidthFactor,
       required double speedFactor,
-      required double smoothing,
-      required double streamline,
-      required double taperStart,
-      required double taperEnd,
-      required bool capStart,
-      required bool capEnd,
-      required bool isComplete,
+      double thinning = 0.7,
+      double smoothing = 0.5,
+      double streamline = 0.5,
+      double taperStart = 0.0,
+      double taperEnd = 0.0,
+      bool capStart = true,
+      bool capEnd = true,
+      bool simulatePressure = true,
+      bool isComplete = false,
     }) {
   if (points.isEmpty) return [];
 
@@ -71,17 +73,18 @@ List<StrokePoint> getStrokePoints(
     if (isComplete && i == pts.length - 1) {
       point = pts[i];
     } else {
-      point = pts[i];
+      point = lrp(prev.point, pts[i], t);
+
+      if (!simulatePressure) {
+        // Use real pressure.
+        point = Point(point.x, point.y, pressure: pts[i].pressure);
+      }
     }
 
     if (isEqual(point, prev.point)) {
       continue;
     }
 
-    final p = pts.first;
-    distance = (pts.length == 1)
-        ? 0
-        : (pts[i].asOffset - p.asOffset).distance;
     distance = dist(point, prev.point);
 
     runningLength += distance;
