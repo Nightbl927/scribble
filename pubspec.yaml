@@ -1,6 +1,7 @@
 name: scribble
-description: Scribble is a lightweight library for freehand drawing in Flutter supporting pressure, variable line width and more!
-version: 0.2.0
+description: Scribble is a lightweight library for freehand drawing in Flutter
+  supporting pressure, variable line width and more!
+version: 0.4.0
 repository: https://github.com/timcreatedit/scribble
 
 environment:
@@ -10,20 +11,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  vector_math: ^2.1.0
-  freezed_annotation: ^0.15.0
-  state_notifier: ^0.7.1
   flutter_state_notifier: ^0.7.1
-  history_state_notifier: ^0.0.4
+  freezed_annotation: ^2.0.3
+  history_state_notifier: ^0.0.5
+  state_notifier: ^0.7.2+1
+  vector_math: ^2.1.1
 
 dev_dependencies:
-  build_runner: ^2.1.5
-  json_annotation: ^4.3.0
-  json_serializable: ^6.0.1
-  freezed: ^0.15.1+1
+  build_runner: ^2.1.8
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  freezed: ^2.0.3
+  json_serializable: ^6.1.5
 
 # The following section is specific to Flutter.
-flutter:
+flutter: null
